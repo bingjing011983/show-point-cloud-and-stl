@@ -1,193 +1,196 @@
-#include "PointCloud.h"
+ï»¿#include "PointCloud.h"
 
+#include <QDebug>
 
 PointCloud::PointCloud()
 {
-
 }
 PointCloud::~PointCloud()
 {
-
 }
 
-bool PointCloud::read(const char* path)
+bool PointCloud::read( const char* path )
 {
-	fstream readTexData(path);
-	if (!readTexData)
-	{
-		return false;
-	}
-	QVector3D data;
-	float x, y, z;
-	while (readTexData >> x >> y >> z)
-	{
-		data.setX(x);
-		data.setY(y);
-		data.setZ(z);
-		pointData.push_back(data);
-	}
-	readTexData.close();
+    fstream readTexData( path );
+    if ( !readTexData )
+    {
+        return false;
+    }
+    QVector3D data;
+    float     x, y, z;
+    while ( readTexData >> x >> y >> z )
+    {
+        data.setX( x );
+        data.setY( y );
+        data.setZ( z );
+        pointData.push_back( data );
+    }
+    readTexData.close();
 
-	getMaxCoordinate();
-	getMinCoordinate();
-	//½«ËùÓĞµÄµãÏë0.0.0µã ÒÆ¶¯£¬Ê¹ÖĞÖµµã  Î»ÓÚ0.0.0µã£¬ÕâÑù¾Í²»ÓÃ¿¼ÂÇĞı×ªÖáµÄÎÊÌâÁË
-	QVector3D centerPoint;
-	getCenterPoint(centerPoint);
+    getMaxCoordinate();
+    getMinCoordinate();
+    //å°†æ‰€æœ‰çš„ç‚¹æƒ³0.0.0ç‚¹ ç§»åŠ¨ï¼Œä½¿ä¸­å€¼ç‚¹  ä½äº0.0.0ç‚¹ï¼Œè¿™æ ·å°±ä¸ç”¨è€ƒè™‘æ—‹è½¬è½´çš„é—®é¢˜äº†
+    QVector3D centerPoint;
+    getCenterPoint( centerPoint );
 
-	for (int i = 0; i < pointData.size(); i++)
-	{
-		pointData[i].setX(pointData[i].x() - centerPoint.x());
-		pointData[i].setY(pointData[i].y() - centerPoint.y());
-		pointData[i].setZ(pointData[i].z() - centerPoint.z());
-	}
-	//¸üĞÂ×î´ó ×îĞ¡Öµµã ×ø±ês
-	getMaxCoordinate();
-	getMinCoordinate();
+    for ( int i = 0; i < pointData.size(); i++ )
+    {
+        pointData[i].setX( pointData[i].x() - centerPoint.x() );
+        pointData[i].setY( pointData[i].y() - centerPoint.y() );
+        pointData[i].setZ( pointData[i].z() - centerPoint.z() );
+    }
+    //æ›´æ–°æœ€å¤§ æœ€å°å€¼ç‚¹ åæ ‡s
+    getMaxCoordinate();
+    getMinCoordinate();
 
-	//½¨Á¢Ò»¸ö ÒÔ¿ÉÒÔÈİÄÉËùÓĞµãµÄ Õı·½Ìå È»ºó ÈÃ¶¥µãÓ³Éäµ½ 0.5£¨ËùÓĞµã¶¼½øĞĞÓ³Éä£©
-	float factor = getFactor();//»ñÈ¡±ä»»Òò×Ó
-	for (int i = 0; i < pointData.size(); i++)
-	{
-		pointData[i].setX(pointData[i].x() * factor);
-		pointData[i].setY(pointData[i].y() * factor);
-		pointData[i].setZ(pointData[i].z() * factor);
-	}
+    //å»ºç«‹ä¸€ä¸ª ä»¥å¯ä»¥å®¹çº³æ‰€æœ‰ç‚¹çš„ æ­£æ–¹ä½“ ç„¶å è®©é¡¶ç‚¹æ˜ å°„åˆ° 0.5ï¼ˆæ‰€æœ‰ç‚¹éƒ½è¿›è¡Œæ˜ å°„ï¼‰
+    float factor = getFactor();  //è·å–å˜æ¢å› å­
+    for ( int i = 0; i < pointData.size(); i++ )
+    {
+        pointData[i].setX( pointData[i].x() * factor );
+        pointData[i].setY( pointData[i].y() * factor );
+        pointData[i].setZ( pointData[i].z() * factor );
+    }
 
-	//¸üĞÂ×î´ó ×îĞ¡Öµµã ×ø±ês
-	getMaxCoordinate();
-	getMinCoordinate();
+    //æ›´æ–°æœ€å¤§ æœ€å°å€¼ç‚¹ åæ ‡s
+    getMaxCoordinate();
+    getMinCoordinate();
 
-	return true;
+    qDebug() << "factor" << factor;
+    qDebug() << "maxCoordinate" << maxCoordinate;
+    qDebug() << "minCoordinate" << minCoordinate;
+    return true;
 }
-void PointCloud::handlePointDate(vector<QVector3D> data) {
-	pointData = data;
+void PointCloud::handlePointDate( vector<QVector3D> data )
+{
+    pointData = data;
 
-	getMaxCoordinate();
-	getMinCoordinate();
-	//½«ËùÓĞµÄµãÏë0.0.0µã ÒÆ¶¯£¬Ê¹ÖĞÖµµã  Î»ÓÚ0.0.0µã£¬ÕâÑù¾Í²»ÓÃ¿¼ÂÇĞı×ªÖáµÄÎÊÌâÁË
-	QVector3D centerPoint;
-	getCenterPoint(centerPoint);
+    getMaxCoordinate();
+    getMinCoordinate();
+    //å°†æ‰€æœ‰çš„ç‚¹æƒ³0.0.0ç‚¹ ç§»åŠ¨ï¼Œä½¿ä¸­å€¼ç‚¹  ä½äº0.0.0ç‚¹ï¼Œè¿™æ ·å°±ä¸ç”¨è€ƒè™‘æ—‹è½¬è½´çš„é—®é¢˜äº†
+    QVector3D centerPoint;
+    getCenterPoint( centerPoint );
 
-	for (int i = 0; i < pointData.size(); i++)
-	{
-		pointData[i].setX(pointData[i].x() - centerPoint.x());
-		pointData[i].setY(pointData[i].y() - centerPoint.y());
-		pointData[i].setZ(pointData[i].z() - centerPoint.z());
-	}
-	//¸üĞÂ×î´ó ×îĞ¡Öµµã ×ø±ês
-	getMaxCoordinate();
-	getMinCoordinate();
+    for ( int i = 0; i < pointData.size(); i++ )
+    {
+        pointData[i].setX( pointData[i].x() - centerPoint.x() );
+        pointData[i].setY( pointData[i].y() - centerPoint.y() );
+        pointData[i].setZ( pointData[i].z() - centerPoint.z() );
+    }
+    //æ›´æ–°æœ€å¤§ æœ€å°å€¼ç‚¹ åæ ‡s
+    getMaxCoordinate();
+    getMinCoordinate();
 
-	//½¨Á¢Ò»¸ö ÒÔ¿ÉÒÔÈİÄÉËùÓĞµãµÄ Õı·½Ìå È»ºó ÈÃ¶¥µãÓ³Éäµ½ 0.5£¨ËùÓĞµã¶¼½øĞĞÓ³Éä£©
-	float factor = getFactor();//»ñÈ¡±ä»»Òò×Ó
-	for (int i = 0; i < pointData.size(); i++)
-	{
-		pointData[i].setX(pointData[i].x() * factor);
-		pointData[i].setY(pointData[i].y() * factor);
-		pointData[i].setZ(pointData[i].z() * factor);
-	}
+    //å»ºç«‹ä¸€ä¸ª ä»¥å¯ä»¥å®¹çº³æ‰€æœ‰ç‚¹çš„ æ­£æ–¹ä½“ ç„¶å è®©é¡¶ç‚¹æ˜ å°„åˆ° 0.5ï¼ˆæ‰€æœ‰ç‚¹éƒ½è¿›è¡Œæ˜ å°„ï¼‰
+    float factor = getFactor();  //è·å–å˜æ¢å› å­
+    for ( int i = 0; i < pointData.size(); i++ )
+    {
+        pointData[i].setX( pointData[i].x() * factor );
+        pointData[i].setY( pointData[i].y() * factor );
+        pointData[i].setZ( pointData[i].z() * factor );
+    }
 
-	//¸üĞÂ×î´ó ×îĞ¡Öµµã ×ø±ês
-	getMaxCoordinate();
-	getMinCoordinate();
+    //æ›´æ–°æœ€å¤§ æœ€å°å€¼ç‚¹ åæ ‡s
+    getMaxCoordinate();
+    getMinCoordinate();
 }
 float PointCloud::getFactor()
 {
-	float max = 0;
-	if (max <= maxCoordinate.x())
-	{
-		max = maxCoordinate.x();
-	}
-	if (max <= maxCoordinate.y())
-	{
-		max = maxCoordinate.y();
-	}
-	if (max <= maxCoordinate.z())
-	{
-		max = maxCoordinate.z();
-	}
-	return 0.5 / max;
+    float max = 0;
+    if ( max <= maxCoordinate.x() )
+    {
+        max = maxCoordinate.x();
+    }
+    if ( max <= maxCoordinate.y() )
+    {
+        max = maxCoordinate.y();
+    }
+    if ( max <= maxCoordinate.z() )
+    {
+        max = maxCoordinate.z();
+    }
+    return 0.5 / max;
 }
 void PointCloud::getMaxCoordinate()
 {
-	if (0 == pointData.size())
-	{
-		return;
-	}
-	QVector3D vec;
-	vec.setX(pointData[0].x());
-	vec.setY(pointData[0].y());
-	vec.setZ(pointData[0].z());
+    if ( 0 == pointData.size() )
+    {
+        return;
+    }
+    QVector3D vec;
+    vec.setX( pointData[0].x() );
+    vec.setY( pointData[0].y() );
+    vec.setZ( pointData[0].z() );
 
-	for (int i = 0; i < pointData.size(); i++)
-	{
-		if (vec.x() < pointData[i].x())
-		{
-			vec.setX(pointData[i].x());
-		}
-		if (vec.y() < pointData[i].y())
-		{
-			vec.setY(pointData[i].y());
-		}
-		if (vec.z() < pointData[i].z())
-		{
-			vec.setZ(pointData[i].z());
-		}
-	}
-	maxCoordinate = vec;
+    for ( int i = 0; i < pointData.size(); i++ )
+    {
+        if ( vec.x() < pointData[i].x() )
+        {
+            vec.setX( pointData[i].x() );
+        }
+        if ( vec.y() < pointData[i].y() )
+        {
+            vec.setY( pointData[i].y() );
+        }
+        if ( vec.z() < pointData[i].z() )
+        {
+            vec.setZ( pointData[i].z() );
+        }
+    }
+    maxCoordinate = vec;
 }
 
 void PointCloud::getMinCoordinate()
 {
-	if (0 == pointData.size())
-	{
-		return;
-	}
-	QVector3D vec;
+    if ( 0 == pointData.size() )
+    {
+        return;
+    }
+    QVector3D vec;
 
-	vec.setX(pointData[0].x());
-	vec.setY(pointData[0].y());
-	vec.setZ(pointData[0].z());
+    vec.setX( pointData[0].x() );
+    vec.setY( pointData[0].y() );
+    vec.setZ( pointData[0].z() );
 
-	for (int i = 0; i < pointData.size(); i++)
-	{
-		if (vec.x() > pointData[i].x())
-		{
-			vec.setX(pointData[i].x());
-		}
-		if (vec.y() > pointData[i].y())
-		{
-			vec.setY(pointData[i].y());
-		}
-		if (vec.z() > pointData[i].z())
-		{
-			vec.setZ(pointData[i].z());
-		}
-	}
-	minCoordinate = vec;
+    for ( int i = 0; i < pointData.size(); i++ )
+    {
+        if ( vec.x() > pointData[i].x() )
+        {
+            vec.setX( pointData[i].x() );
+        }
+        if ( vec.y() > pointData[i].y() )
+        {
+            vec.setY( pointData[i].y() );
+        }
+        if ( vec.z() > pointData[i].z() )
+        {
+            vec.setZ( pointData[i].z() );
+        }
+    }
+    minCoordinate = vec;
 }
-void PointCloud::getCenterPoint(QVector3D &vec)
+void PointCloud::getCenterPoint( QVector3D& vec )
 {
-	if (0 == pointData.size())
-	{
-		return;
-	}
-	//È¡ÖØĞÄ
-	/*float xSum = 0;
-	float ySum = 0;
-	float zSum = 0;
-	for (int i = 0; i < pointData.size(); i++)
-	{
-		xSum += pointData[i].x();
-		ySum += pointData[i].y();
-		zSum += pointData[i].z();
-	}
-	vec.setX(xSum / pointData.size());
-	vec.setY(ySum / pointData.size());
-	vec.setZ(zSum / pointData.size());*/
+    if ( 0 == pointData.size() )
+    {
+        return;
+    }
+    //å–é‡å¿ƒ
+    /*float xSum = 0;
+    float ySum = 0;
+    float zSum = 0;
+    for (int i = 0; i < pointData.size(); i++)
+    {
+        xSum += pointData[i].x();
+        ySum += pointData[i].y();
+        zSum += pointData[i].z();
+    }
+    vec.setX(xSum / pointData.size());
+    vec.setY(ySum / pointData.size());
+    vec.setZ(zSum / pointData.size());*/
 
-	//È¡ÖĞĞÄ£¬ ÒòÎªÈËµÄÑÛ¾¦ Ï°¹ßÉÏ »á°ÑÎïÌåµÄÖĞĞÄµ±×öÖĞĞÄµã£¬¶ø²»ÊÇ ÖØĞÄ£¬È¡ÖØĞÄµÄ»°£¬Ğı×ªĞ§¹û¿ÉÄÜ»áºÜ¹ÖÒì
-	vec.setX((maxCoordinate.x() + minCoordinate.x()) / 2);
-	vec.setY((maxCoordinate.y() + minCoordinate.y()) / 2);
-	vec.setZ((maxCoordinate.z() + minCoordinate.z()) / 2);
+    //å–ä¸­å¿ƒï¼Œ å› ä¸ºäººçš„çœ¼ç› ä¹ æƒ¯ä¸Š ä¼šæŠŠç‰©ä½“çš„ä¸­å¿ƒå½“åšä¸­å¿ƒç‚¹ï¼Œè€Œä¸æ˜¯ é‡å¿ƒï¼Œå–é‡å¿ƒçš„è¯ï¼Œæ—‹è½¬æ•ˆæœå¯èƒ½ä¼šå¾ˆæ€ªå¼‚
+    vec.setX( ( maxCoordinate.x() + minCoordinate.x() ) / 2 );
+    vec.setY( ( maxCoordinate.y() + minCoordinate.y() ) / 2 );
+    vec.setZ( ( maxCoordinate.z() + minCoordinate.z() ) / 2 );
 }
