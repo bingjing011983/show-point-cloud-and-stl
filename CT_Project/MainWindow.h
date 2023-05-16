@@ -1,5 +1,5 @@
-#pragma once
-#pragma execution_character_set("utf-8")//display chinese words, ²»¼ÓÕâ¾ä»°£¬qt ¾Í²»ÄÜÕı³£ÏÔÊ¾ ºº×Ö
+ï»¿#pragma once
+#pragma execution_character_set("utf-8")//display chinese words, ä¸åŠ è¿™å¥è¯ï¼Œqt å°±ä¸èƒ½æ­£å¸¸æ˜¾ç¤º æ±‰å­—
 
 #include <QtWidgets/QWidget>
 #include <QtWidgets>
@@ -17,10 +17,10 @@ public:
 	MainWindow(QWidget *parent = Q_NULLPTR);
 	~MainWindow();
 public slots:
-	//void openAndGenerate();// ´ò¿ªdcmÎÄ¼ş ¼ÆËãÉú³É stlÎÄ¼şºÍµãÔÆÎÄ¼ş
-	bool viewPointData();//ÏÔÊ¾µãÔÆ
-	bool viewStlData();//ÏÔÊ¾stlÎÄ¼ş
-	void switchView();// ÇĞ»»ÏÔÊ¾µÄÊÓ¿Ú
+	//void openAndGenerate();// æ‰“å¼€dcmæ–‡ä»¶ è®¡ç®—ç”Ÿæˆ stlæ–‡ä»¶å’Œç‚¹äº‘æ–‡ä»¶
+	bool viewPointData();//æ˜¾ç¤ºç‚¹äº‘
+	bool viewStlData();//æ˜¾ç¤ºstlæ–‡ä»¶
+	void switchView();// åˆ‡æ¢æ˜¾ç¤ºçš„è§†å£
 	void viewAfterGenerate();
 	void clearTextEdit();
 	//int ReadData(const char* str, vector<float> &data);
@@ -37,7 +37,7 @@ private:
 	QStackedWidget *stackedWidget;
 
 
-	// ÓÃÀ´×° µãÔÆ´°¿Ú ºÍ stl´°¿ÚµÄÈİÆ÷
+	// ç”¨æ¥è£… ç‚¹äº‘çª—å£ å’Œ stlçª—å£çš„å®¹å™¨
 
 	int switchViewFlag;
 };

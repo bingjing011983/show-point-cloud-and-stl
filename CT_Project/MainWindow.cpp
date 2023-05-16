@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+ï»¿#include "MainWindow.h"
 #include <Qvector3D>
 #include <iostream>
 #include <QStackedWidget>
@@ -11,7 +11,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 MainWindow::~MainWindow() {
-	// »ØÊÕ·ÖÅäµÄÄÚ´æ¿Õ¼ä
+	// å›æ”¶åˆ†é…çš„å†…å­˜ç©ºé—´
 	delete pointCloudWidget;
 	delete stlWidget;
 	delete stackedWidget;
@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	// ³õÊ¼»¯Ö¸Õë±äÁ¿
+	// åˆå§‹åŒ–æŒ‡é’ˆå˜é‡
 	pointCloudWidgetDemo = NULL;
 	stlWidgetDemo = NULL;
 	stackedWidgetDemo = NULL;
@@ -34,58 +34,58 @@ MainWindow::MainWindow(QWidget *parent)
 	stlWidget = NULL;
 	stackedWidget = NULL;
 
-	setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // ½ûÖ¹×î´ó»¯°´Å¥
-	setFixedSize(this->width(), this->height());   // ½ûÖ¹ÍÏ¶¯´°¿Ú´óĞ¡
-	setWindowTitle("DCMÎÄ¼ş´¦ÀíÆ÷");// ÉèÖÃ´°¿ÚÃû×Ö
+	setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // ç¦æ­¢æœ€å¤§åŒ–æŒ‰é’®
+	setFixedSize(this->width(), this->height());   // ç¦æ­¢æ‹–åŠ¨çª—å£å¤§å°
+	setWindowTitle("DCMæ–‡ä»¶å¤„ç†å™¨");// è®¾ç½®çª—å£åå­—
 
-	// ¸ø°´Å¥Á´½Ó²Ûº¯Êı
+	// ç»™æŒ‰é’®é“¾æ¥æ§½å‡½æ•°
 	//connect(ui.openButton, &QPushButton::clicked, this, &MainWindow::openAndGenerate);
 	connect(ui.switchButton, &QPushButton::clicked, this, &MainWindow::switchView);
 	connect(ui.viewGenButton, &QPushButton::clicked, this, &MainWindow::viewAfterGenerate);
 	connect(ui.clearButton, &QPushButton::clicked, this, &MainWindow::clearTextEdit);
 
-	// ¶ÁÈëdemoµãÔÆÊı¾İ²¢ÏÔÊ¾
+	// è¯»å…¥demoç‚¹äº‘æ•°æ®å¹¶æ˜¾ç¤º
 	PointCloud pointCloud1;
 	pointCloud1.read("testModel\\bunny.txt");
 	vector<GLfloat>  pointData1;
-	for (int i = 0; i < pointCloud1.pointData.size(); i++)//½«ËùÓĞµÄµãÊı¾İ·ÅÈë µãÊı¾İ ÈİÆ÷ÖĞ
+	for (int i = 0; i < pointCloud1.pointData.size(); i++)//å°†æ‰€æœ‰çš„ç‚¹æ•°æ®æ”¾å…¥ ç‚¹æ•°æ® å®¹å™¨ä¸­
 	{
 		pointData1.push_back(pointCloud1.pointData[i].x());
 		pointData1.push_back(pointCloud1.pointData[i].y());
 		pointData1.push_back(pointCloud1.pointData[i].z());
 	}
-	//´´½¨µãÔÆÏÔÊ¾´°¿Ú£¬1 ÒªÏÔÊ¾µÄµãÔÆÎÄ¼ş
+	//åˆ›å»ºç‚¹äº‘æ˜¾ç¤ºçª—å£ï¼Œ1 è¦æ˜¾ç¤ºçš„ç‚¹äº‘æ–‡ä»¶
 	pointCloudWidgetDemo = new MyGLWidget(this, pointData1, 1);
 	pointCloudWidgetDemo->show();
 
-	// ¶ÁÈëdemostlÊı¾İ²¢ÏÔÊ¾
+	// è¯»å…¥demostlæ•°æ®å¹¶æ˜¾ç¤º
 	ReadSTLFile readSTLFile;
 	readSTLFile.ReadFile("w0w285090.stl");
 	PointCloud pointCloud2;
 	vector<QVector3D> tempPointList = readSTLFile.getPointList();
 	vector<QVector3D> tempVectorList = readSTLFile.getVectorList();
-	pointCloud2.handlePointDate(tempPointList);//¶ÁÈë Êı¾İ ²¢°ÑËùÓĞµÄµãÓ³Éäµ½ ÖĞĞÄÎª 0£¬0,0µã  ±ß³¤Îª1 µÄ Õı·½ÌåÖĞ
+	pointCloud2.handlePointDate(tempPointList);//è¯»å…¥ æ•°æ® å¹¶æŠŠæ‰€æœ‰çš„ç‚¹æ˜ å°„åˆ° ä¸­å¿ƒä¸º 0ï¼Œ0,0ç‚¹  è¾¹é•¿ä¸º1 çš„ æ­£æ–¹ä½“ä¸­
 
 	vector<GLfloat>  pointData2;
-	for (int i = 0; i < pointCloud2.pointData.size(); i++)//½«ËùÓĞµÄµãÊı¾İ·ÅÈë µãÊı¾İ ÈİÆ÷ÖĞ
+	for (int i = 0; i < pointCloud2.pointData.size(); i++)//å°†æ‰€æœ‰çš„ç‚¹æ•°æ®æ”¾å…¥ ç‚¹æ•°æ® å®¹å™¨ä¸­
 	{
 		int j = i / 3;
 		pointData2.push_back(pointCloud2.pointData[i].x());
 		pointData2.push_back(pointCloud2.pointData[i].y());
 		pointData2.push_back(pointCloud2.pointData[i].z());
 
-		// ×°ÈëÏòÁ¿×ø±ê Í¬Ò»¸öÈı½ÇÆ¬Ãæ Ê¹ÓÃ ÏàÍ¬µÄ·¨ÏòÁ¿
+		// è£…å…¥å‘é‡åæ ‡ åŒä¸€ä¸ªä¸‰è§’ç‰‡é¢ ä½¿ç”¨ ç›¸åŒçš„æ³•å‘é‡
 		pointData2.push_back(tempVectorList[j].x());
 		pointData2.push_back(tempVectorList[j].y());
 		pointData2.push_back(tempVectorList[j].z());
 	}
-	// ´´½¨stlÏÔÊ¾´°¿Ú  2 ´ú±íÒªÏÔÊ¾ÊÇstlÎÄ¼ş
+	// åˆ›å»ºstlæ˜¾ç¤ºçª—å£  2 ä»£è¡¨è¦æ˜¾ç¤ºæ˜¯stlæ–‡ä»¶
 	stlWidgetDemo = new MyGLWidget(this, pointData2, 2);
 	stlWidgetDemo->show();
 
 	stackedWidgetDemo = new QStackedWidget(this);
-	stackedWidgetDemo->addWidget(stlWidgetDemo);//Ìí¼ÓÔÚ µÚ0Ò³£¬ÏÔÊ¾µÄÊ±ºò£¬Ò²ÊÇÓÅÏÈÏÔÊ¾µÚÁãÒ³£»
-	stackedWidgetDemo->addWidget(pointCloudWidgetDemo);//Ìí¼ÓÔÚ µÚ1Ò³
+	stackedWidgetDemo->addWidget(stlWidgetDemo);//æ·»åŠ åœ¨ ç¬¬0é¡µï¼Œæ˜¾ç¤ºçš„æ—¶å€™ï¼Œä¹Ÿæ˜¯ä¼˜å…ˆæ˜¾ç¤ºç¬¬é›¶é¡µï¼›
+	stackedWidgetDemo->addWidget(pointCloudWidgetDemo);//æ·»åŠ åœ¨ ç¬¬1é¡µ
 	stackedWidgetDemo->move(this->width() / 4, 0);
 	stackedWidgetDemo->resize(this->width() * 4 / 5, this->height());
 	stackedWidgetDemo->show();
@@ -93,27 +93,27 @@ MainWindow::MainWindow(QWidget *parent)
 }
 void MainWindow::switchView()
 {
-	if (NULL == stackedWidget) {// Èç¹ûÎª¿Õ ÔõÃ´ËµÃ÷ »¹Î´Éú³É ÒªÏÔÊ¾µÄÎÄ¼ş£¬ËùÒÔ¾ÍÇĞ»» demo´°¿Ú
+	if (NULL == stackedWidget) {// å¦‚æœä¸ºç©º æ€ä¹ˆè¯´æ˜ è¿˜æœªç”Ÿæˆ è¦æ˜¾ç¤ºçš„æ–‡ä»¶ï¼Œæ‰€ä»¥å°±åˆ‡æ¢ demoçª—å£
 		if (2 == switchViewFlag)
 		{
-			stackedWidgetDemo->setCurrentIndex(1);//»»³É µãÔÆËùÔÚµÄÒ³£»
+			stackedWidgetDemo->setCurrentIndex(1);//æ¢æˆ ç‚¹äº‘æ‰€åœ¨çš„é¡µï¼›
 			switchViewFlag = 1;
 		}
 		else
 		{
-			stackedWidgetDemo->setCurrentIndex(0);//»»³É stlËùÔÚµÄÒ³£»
+			stackedWidgetDemo->setCurrentIndex(0);//æ¢æˆ stlæ‰€åœ¨çš„é¡µï¼›
 			switchViewFlag = 2;
 		}
 	}
-	else {// stlºÍµãÔÆÎÄ¼şÒÑ¾­Éú³É£¬ ËùÒÔ¾ÍÇĞ»»Éú³É´°¿Ú
+	else {// stlå’Œç‚¹äº‘æ–‡ä»¶å·²ç»ç”Ÿæˆï¼Œ æ‰€ä»¥å°±åˆ‡æ¢ç”Ÿæˆçª—å£
 		if (2 == switchViewFlag)
 		{
-			stackedWidget->setCurrentIndex(1);//»»³É µãÔÆËùÔÚµÄÒ³£»
+			stackedWidget->setCurrentIndex(1);//æ¢æˆ ç‚¹äº‘æ‰€åœ¨çš„é¡µï¼›
 			switchViewFlag = 1;
 		}
 		else
 		{
-			stackedWidget->setCurrentIndex(0);//»»³É stlËùÔÚµÄÒ³£»
+			stackedWidget->setCurrentIndex(0);//æ¢æˆ stlæ‰€åœ¨çš„é¡µï¼›
 			switchViewFlag = 2;
 		}
 	}
@@ -122,12 +122,12 @@ void MainWindow::switchView()
 void MainWindow::viewAfterGenerate() {
 	bool a = false;
 	bool b = false;
-	a = viewPointData(); // ÏÔÊ¾³öµãÔÆÎÄ¼ş ÏÔÊ¾³É¹¦ ·µ»Øtrue ´íÎó ·µ»Øfalse
-	b = viewStlData(); // ÏÔÊ¾³östlÎÄ¼ş ÏÔÊ¾³É¹¦ ·µ»Øtrue ´íÎó ·µ»Øfalse
+	a = viewPointData(); // æ˜¾ç¤ºå‡ºç‚¹äº‘æ–‡ä»¶ æ˜¾ç¤ºæˆåŠŸ è¿”å›true é”™è¯¯ è¿”å›false
+	b = viewStlData(); // æ˜¾ç¤ºå‡ºstlæ–‡ä»¶ æ˜¾ç¤ºæˆåŠŸ è¿”å›true é”™è¯¯ è¿”å›false
 	if (false == a || false == b)
 	{
-		ui.textEdit->append("µãÔÆÎÄ¼ş »òÕß stlÎÄ¼ş Î´Éú³É    ");
-		QMessageBox::about(this, "´íÎó", "µãÔÆÎÄ¼ş »òÕß stlÎÄ¼ş Î´Éú³É   ");
+		ui.textEdit->append("ç‚¹äº‘æ–‡ä»¶ æˆ–è€… stlæ–‡ä»¶ æœªç”Ÿæˆ    ");
+		QMessageBox::about(this, "é”™è¯¯", "ç‚¹äº‘æ–‡ä»¶ æˆ–è€… stlæ–‡ä»¶ æœªç”Ÿæˆ   ");
 		return;
 	}
 
@@ -142,7 +142,7 @@ void MainWindow::viewAfterGenerate() {
 	pointCloudWidget->show();
 	switchViewFlag = 2;
 }
-void MainWindow::clearTextEdit()// Çå³ı ÎÄ±¾¿òÄÚÈİ
+void MainWindow::clearTextEdit()// æ¸…é™¤ æ–‡æœ¬æ¡†å†…å®¹
 {
 	ui.textEdit->clear();
 }
@@ -150,12 +150,12 @@ bool MainWindow::viewPointData()
 {
 	PointCloud pointCloud;
 
-	if (false == pointCloud.read("BOLUS.txt"))//¶ÁÈë Êı¾İ ²¢°ÑËùÓĞµÄµãÓ³Éäµ½ ÖĞĞÄÎª 0£¬0,0µã  ±ß³¤Îª1 µÄ Õı·½ÌåÖĞ
+	if (false == pointCloud.read("BOLUS.txt"))//è¯»å…¥ æ•°æ® å¹¶æŠŠæ‰€æœ‰çš„ç‚¹æ˜ å°„åˆ° ä¸­å¿ƒä¸º 0ï¼Œ0,0ç‚¹  è¾¹é•¿ä¸º1 çš„ æ­£æ–¹ä½“ä¸­
 	{
 		return false;
 	}
 	vector<GLfloat>  pointData;
-	for (int i = 0; i < pointCloud.pointData.size(); i++)//½«ËùÓĞµÄµãÊı¾İ·ÅÈë µãÊı¾İ ÈİÆ÷ÖĞ
+	for (int i = 0; i < pointCloud.pointData.size(); i++)//å°†æ‰€æœ‰çš„ç‚¹æ•°æ®æ”¾å…¥ ç‚¹æ•°æ® å®¹å™¨ä¸­
 	{
 		pointData.push_back(pointCloud.pointData[i].x());
 		pointData.push_back(pointCloud.pointData[i].y());
@@ -163,54 +163,54 @@ bool MainWindow::viewPointData()
 	}
 	static bool isFirst1 = true;
 	if (true == isFirst1) {
-		pointCloudWidget = new MyGLWidget(this, pointData, 1);// 1´ú±íÒªÏÔÊ¾ µãÔÆÎÄ¼ş 
+		pointCloudWidget = new MyGLWidget(this, pointData, 1);// 1ä»£è¡¨è¦æ˜¾ç¤º ç‚¹äº‘æ–‡ä»¶ 
 		isFirst1 = false;
 	}
 	else
 	{
 		/*pointCloudWidget->close();
-		delete pointCloudWidget;*/  // ¼ÓÉÏÕâ²½ ²»ÖªµÀÎªÉ¶ »á³ö´í£¬µ«ÊÇ²»¼ÓµÄ Ëæ×Åµã»÷´ÎÊıµÄÔö¶à£¬³ÌĞò»áÕ¼ÓÃºÜ¶àµÄÄÚ´æ£¬ ¾­¹ı²âÊÔ·¢ÏÖ£¬
-		// Ö»Òª²»ÊÇ¹ÊÒâµÄ°Ñ£¬ÏÔÊ¾ÒÑÉú³É°´Å¥ µã»÷ ¼¸Ê®´Î ÉõÖÁ¼¸°Ù´ÎµÄ»°£¬³ÌĞòÒ»°ã²»»á±äµÄºÜ¿¨µ½±ÀÀ££» ÕâÀï×öµÄ²»ÊÇºÜºÃ£¬ºóÕß¿ÉÒÔ½øĞĞÓÅ»¯£»
-		pointCloudWidget = new MyGLWidget(this, pointData, 1);// 1´ú±íÒªÏÔÊ¾ µãÔÆÎÄ¼ş 
+		delete pointCloudWidget;*/  // åŠ ä¸Šè¿™æ­¥ ä¸çŸ¥é“ä¸ºå•¥ ä¼šå‡ºé”™ï¼Œä½†æ˜¯ä¸åŠ çš„ éšç€ç‚¹å‡»æ¬¡æ•°çš„å¢å¤šï¼Œç¨‹åºä¼šå ç”¨å¾ˆå¤šçš„å†…å­˜ï¼Œ ç»è¿‡æµ‹è¯•å‘ç°ï¼Œ
+		// åªè¦ä¸æ˜¯æ•…æ„çš„æŠŠï¼Œæ˜¾ç¤ºå·²ç”ŸæˆæŒ‰é’® ç‚¹å‡» å‡ åæ¬¡ ç”šè‡³å‡ ç™¾æ¬¡çš„è¯ï¼Œç¨‹åºä¸€èˆ¬ä¸ä¼šå˜çš„å¾ˆå¡åˆ°å´©æºƒï¼› è¿™é‡Œåšçš„ä¸æ˜¯å¾ˆå¥½ï¼Œåè€…å¯ä»¥è¿›è¡Œä¼˜åŒ–ï¼›
+		pointCloudWidget = new MyGLWidget(this, pointData, 1);// 1ä»£è¡¨è¦æ˜¾ç¤º ç‚¹äº‘æ–‡ä»¶ 
 	}
 	return true;
 }
 bool MainWindow::viewStlData() {
 
 	ReadSTLFile readSTLFile;
-	if (false == readSTLFile.ReadFile("complete.stl"))// ÔÚexeÍ¬Ä¿Â¼ÏÂ ¶ÁÈëÉú³ÉµÄstlÎÄ¼ş complete.stl
+	if (false == readSTLFile.ReadFile("complete.stl"))// åœ¨exeåŒç›®å½•ä¸‹ è¯»å…¥ç”Ÿæˆçš„stlæ–‡ä»¶ complete.stl
 	{
 		return false;
 	}
 	PointCloud pointCloud;
-	vector<QVector3D> tempPointList = readSTLFile.getPointList();//»ñÈ¡ËùÓĞµÄµã
-	vector<QVector3D> tempVectorList = readSTLFile.getVectorList(); // »ñÈ¡ËùÓĞÈı½ÇÆ¬ÃæµÄÏòÁ¿
-	pointCloud.handlePointDate(tempPointList);//¶ÁÈë Êı¾İ ²¢°ÑËùÓĞµÄµãÓ³Éäµ½ ÖĞĞÄÎª 0£¬0,0µã  ±ß³¤Îª1 µÄ Õı·½ÌåÖĞ
+	vector<QVector3D> tempPointList = readSTLFile.getPointList();//è·å–æ‰€æœ‰çš„ç‚¹
+	vector<QVector3D> tempVectorList = readSTLFile.getVectorList(); // è·å–æ‰€æœ‰ä¸‰è§’ç‰‡é¢çš„å‘é‡
+	pointCloud.handlePointDate(tempPointList);//è¯»å…¥ æ•°æ® å¹¶æŠŠæ‰€æœ‰çš„ç‚¹æ˜ å°„åˆ° ä¸­å¿ƒä¸º 0ï¼Œ0,0ç‚¹  è¾¹é•¿ä¸º1 çš„ æ­£æ–¹ä½“ä¸­
 
 	vector<GLfloat>  pointData;
-	for (int i = 0; i < pointCloud.pointData.size(); i++)//½«ËùÓĞµÄµãÊı¾İ·ÅÈë µãÊı¾İ ÈİÆ÷ÖĞ
+	for (int i = 0; i < pointCloud.pointData.size(); i++)//å°†æ‰€æœ‰çš„ç‚¹æ•°æ®æ”¾å…¥ ç‚¹æ•°æ® å®¹å™¨ä¸­
 	{
 		int j = i / 3;
 		pointData.push_back(pointCloud.pointData[i].x());
 		pointData.push_back(pointCloud.pointData[i].y());
 		pointData.push_back(pointCloud.pointData[i].z());
 
-		// ×°ÈëÏòÁ¿×ø±ê Í¬Ò»¸öÈı½ÇÆ¬Ãæ Ê¹ÓÃ ÏàÍ¬µÄ·¨ÏòÁ¿
+		// è£…å…¥å‘é‡åæ ‡ åŒä¸€ä¸ªä¸‰è§’ç‰‡é¢ ä½¿ç”¨ ç›¸åŒçš„æ³•å‘é‡
 		pointData.push_back(tempVectorList[j].x());
 		pointData.push_back(tempVectorList[j].y());
 		pointData.push_back(tempVectorList[j].z());
 	}
 	static bool isFirst2 = true;
 	if (true == isFirst2) {
-		stlWidget = new MyGLWidget(this, pointData, 2);// 2´ú±íÒªÏÔÊ¾ stlÎÄ¼ş 
+		stlWidget = new MyGLWidget(this, pointData, 2);// 2ä»£è¡¨è¦æ˜¾ç¤º stlæ–‡ä»¶ 
 		isFirst2 = false;
 	}
 	else
 	{
 		//stlWidget->close();
-		//delete stlWidget; // ¼ÓÉÏÕâ²½ ²»ÖªµÀÎªÉ¶ »á³ö´í£¬µ«ÊÇ²»¼ÓµÄ Ëæ×Åµã»÷´ÎÊıµÄÔö¶à£¬³ÌĞò»áÕ¼ÓÃºÜ¶àµÄÄÚ´æ£¬ ¾­¹ı²âÊÔ·¢ÏÖ£¬
-		// Ö»Òª²»ÊÇ¹ÊÒâµÄ°Ñ£¬ÏÔÊ¾ÒÑÉú³É°´Å¥ µã»÷ ¼¸Ê®´Î ÉõÖÁ¼¸°Ù´ÎµÄ»°£¬³ÌĞòÒ»°ã²»»á±äµÄºÜ¿¨µ½±ÀÀ££» ÕâÀï×öµÄ²»ÊÇºÜºÃ£¬ºóÕß¿ÉÒÔ½øĞĞÓÅ»¯£»
-		stlWidget = new MyGLWidget(this, pointData, 2);// 2´ú±íÒªÏÔÊ¾ stlÎÄ¼ş 
+		//delete stlWidget; // åŠ ä¸Šè¿™æ­¥ ä¸çŸ¥é“ä¸ºå•¥ ä¼šå‡ºé”™ï¼Œä½†æ˜¯ä¸åŠ çš„ éšç€ç‚¹å‡»æ¬¡æ•°çš„å¢å¤šï¼Œç¨‹åºä¼šå ç”¨å¾ˆå¤šçš„å†…å­˜ï¼Œ ç»è¿‡æµ‹è¯•å‘ç°ï¼Œ
+		// åªè¦ä¸æ˜¯æ•…æ„çš„æŠŠï¼Œæ˜¾ç¤ºå·²ç”ŸæˆæŒ‰é’® ç‚¹å‡» å‡ åæ¬¡ ç”šè‡³å‡ ç™¾æ¬¡çš„è¯ï¼Œç¨‹åºä¸€èˆ¬ä¸ä¼šå˜çš„å¾ˆå¡åˆ°å´©æºƒï¼› è¿™é‡Œåšçš„ä¸æ˜¯å¾ˆå¥½ï¼Œåè€…å¯ä»¥è¿›è¡Œä¼˜åŒ–ï¼›
+		stlWidget = new MyGLWidget(this, pointData, 2);// 2ä»£è¡¨è¦æ˜¾ç¤º stlæ–‡ä»¶ 
 	}
 	return true;
 }

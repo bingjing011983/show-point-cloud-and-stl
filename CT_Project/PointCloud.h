@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 #include <iostream>
@@ -12,17 +12,17 @@ public:
 	PointCloud();
 	~PointCloud();
 	
-	QVector3D maxCoordinate;//×î´ó×ø±êµã
-	QVector3D minCoordinate;//×îĞ¡×ø±ê´ó
-	vector<QVector3D> pointData;//µãÊı¾İ
+	QVector3D maxCoordinate;//æœ€å¤§åæ ‡ç‚¹
+	QVector3D minCoordinate;//æœ€å°åæ ‡å¤§
+	vector<QVector3D> pointData;//ç‚¹æ•°æ®
 	
 	float getFactor();
 public:
-	bool read(const char* path);//´ÓÎÄ¼şÖĞ¶ÁÈ¡µãÔÆÊı¾İ ²¢°´±ÈÀı Ó³Éäµ½ -1.0 -- 1.0 µÄ·¶Î§Ö®ÄÚ
-	void handlePointDate(vector<QVector3D> data);// ¹æ¸ñ»¯µãÔÆÊı¾İ£¬ Ó³Éäµ½ -1.0 -- 1.0 µÄ·¶Î§Ö®ÄÚ
-	void getMaxCoordinate();// ·Ö±ğ¼ÆËã³ö x y z µÄ×î´óÖµ ×éºÏ³ÉÒ»¸öµã£»
-	void getMinCoordinate();//  ·Ö±ğ¼ÆËã x y z µÄ×îĞ¡Öµ ×éºÏ³ÉÒ»¸ö£»
-	void getCenterPoint(QVector3D &vec); // »ñÈ¡ÖĞĞÄµã
+	bool read(const char* path);//ä»æ–‡ä»¶ä¸­è¯»å–ç‚¹äº‘æ•°æ® å¹¶æŒ‰æ¯”ä¾‹ æ˜ å°„åˆ° -1.0 -- 1.0 çš„èŒƒå›´ä¹‹å†…
+	void handlePointDate(vector<QVector3D> data);// è§„æ ¼åŒ–ç‚¹äº‘æ•°æ®ï¼Œ æ˜ å°„åˆ° -1.0 -- 1.0 çš„èŒƒå›´ä¹‹å†…
+	void getMaxCoordinate();// åˆ†åˆ«è®¡ç®—å‡º x y z çš„æœ€å¤§å€¼ ç»„åˆæˆä¸€ä¸ªç‚¹ï¼›
+	void getMinCoordinate();//  åˆ†åˆ«è®¡ç®— x y z çš„æœ€å°å€¼ ç»„åˆæˆä¸€ä¸ªï¼›
+	void getCenterPoint(QVector3D &vec); // è·å–ä¸­å¿ƒç‚¹
 	  
 };
 
